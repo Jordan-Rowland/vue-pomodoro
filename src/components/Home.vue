@@ -1,17 +1,8 @@
 <template>
   <section class="section">
-    <div class="container is-fluid">
-      <div class="columns is-centered">
-        <div class="column is-half">
-          <countdown/>
-        </div>
-        <!-- <div class="columns">
-          <div class="column box"></div>
-          <div class="column box"></div>
-          <div class="column box"></div>
-        </div> -->
-      </div>
-      </div>
+    <div class="container">
+      <countdown/>
+    </div>
   </section>
 </template>
 
@@ -19,7 +10,7 @@
 /* jshint esversion: 9 */
 import Countdown from './Countdown.vue';
 import PSetup from './PSetup.vue';
-import { value, computed } from 'vue-function-api';
+import { value } from 'vue-function-api';
 
 export default {
   name: 'home',
@@ -46,12 +37,19 @@ export default {
 }
 
 div {
-  margin: 15px;
+  margin: 1rem;
 }
 
-.box {
-  height: 100px;
-  width: 100px;
-  background-color: green;
+.container {
+  max-width: 80%;
+  margin: auto;
 }
+
+@media only screen and (min-width: 800px) {
+  .container {
+    max-width: 40rem;
+  }
+}
+
+
 </style>

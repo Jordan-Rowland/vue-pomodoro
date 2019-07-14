@@ -1,13 +1,26 @@
 <template>
   <div id="main">
-    <div class="buttons is-centered">
-      <button class="button is-primary">Skip Round</button>
-      <button class="end-btn button is-primary">End</button>
+    <div class="buttons">
+      <button
+        @click="rounds++"
+        class="button">Add Round</button>
+      <button
+        @click="rounds--"
+        class="button">Skip Round</button>
+      <button
+        @click=""
+        class="button">End</button>
     </div>
-    <p id="timer">3:30</p>
-    <div class="details"><em>Rest: 5:00</em></div>
-    <div class="details"><em>Rounds: 3</em></div>
-    <div class="details"><em>Total time: 30:00</em></div>
+    <div class="mode">
+      <p v-if="workMode" class="work-mode">Work</p>
+      <p v-else>Rest</p>
+      <p id="timer">3:30</p>
+    </div>
+    <div class="details">
+      <em>Rest: {{ restTime }} mins</em> <br>
+      <em>Rounds: {{ rounds }}</em> <br>
+      <em>Total time: {{workTime + restTime}} mins</em>
+    </div>
   </div>
 </template>
 
@@ -18,11 +31,16 @@ import { value } from 'vue-function-api';
 export default {
 name: 'Countdown',
 setup() {
-  const mode = value('work');
-
+  const workMode = value(true);
+  const workTime = value(25);
+  const restTime = value(5);
+  const rounds = value(5);
 
   return {
-    mode,
+    workMode,
+    workTime,
+    restTime,
+    rounds,
   };
 },
 };
@@ -37,28 +55,45 @@ setup() {
   position: relative;
 }
 
+.mode {
+  text-align: center;
+}
+
+.work-mode {
+  font-size: 2em;
+}
+
 #timer {
   font-size: 4em;
-  text-align: center;
   position: relative;
-  top: 15px;
+  top: -50px;
 }
 
 .buttons {
+  display: flex;
+  justify-content: center;
 }
 
 .button {
-  /*position: relative;*/
+  margin: 0 15px;
+  height: 3em;
+  background-color: #5FBA7D;
+  color: white;
+  border: none;
+  border-radius: 7px;
+  width: 105px;
+  font-weight: 800;
+  box-shadow: none;
+  outline: none;
 }
 
-.end-btn {
-  /*margin-top: 8px;*/
-  width: 105px;
+.button:hover {
+  cursor: pointer;
 }
 
 .details {
-  position: relative;
-  top: 10px;
+  position: absolute;
   font-size: 1.3em;
+  top: 250px;
 }
 </style>
