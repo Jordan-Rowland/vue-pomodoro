@@ -1,9 +1,10 @@
 <template>
-  <div>
-    <button
-        class="button"
-        >{{ text }}</button>
-  </div>
+  <!-- Change the prop to slot -->
+  <button class="button"><slot></slot></button>
+
+  <!-- See if this works, else, add div back in -->
+  <!-- <div> -->
+    <!-- <button class="button">{{ text }}</button> -->
 </template>
 
 <script>
@@ -12,9 +13,9 @@ import { value } from 'vue-function-api';
 
 export default {
 name: 'AppButton',
-props: {
-  text: String,
-},
+// props: {
+//   text: String,
+// },
 setup(props) {
 
 

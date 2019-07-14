@@ -7,6 +7,7 @@
 <script>
 /* jshint esversion: 9 */
 import { value } from 'vue-function-api';
+import AppButton from './AppButton.vue';
 
 export default {
 name: 'PSetup',

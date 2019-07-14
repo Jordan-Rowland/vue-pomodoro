@@ -1,9 +1,7 @@
 <template>
-  <section class="section">
-    <div class="container">
-      <countdown/>
-    </div>
-  </section>
+  <div class="container">
+    <countdown/>
+  </div>
 </template>
 
 <script>
@@ -22,6 +20,7 @@ setup() {
 },
 components: {
   Countdown,
+  PSetup,
 },
 
 };

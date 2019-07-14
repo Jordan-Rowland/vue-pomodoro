@@ -2,34 +2,32 @@
   <div id="main">
     <div class="buttons">
       <app-button
-        text="Add Round"
-        @click.native="rounds++">
+        @click.native="rounds++">Add Round
       </app-button>
       <app-button
-        @click.native="rounds--"
-        text="Skip Round">
+        @click.native="rounds--">Skip Round
       </app-button>
       <app-button
-        @click.native=""
-        text="End">
+        @click.native="endRounds">End
       </app-button>
     </div>
     <div class="mode">
       <p v-if="workMode" class="work-mode">Work</p>
       <p v-else>Rest</p>
-      <p id="timer">3:30</p>
+      <p id="timer">{{ minutes }}:{{ seconds }}</p>
     </div>
     <div class="details">
+      <em>Work: {{ workTime }} mins</em> <br>
       <em>Rest: {{ restTime }} mins</em> <br>
       <em>Rounds: {{ rounds }}</em> <br>
-      <em>Total time: {{workTime + restTime}} mins</em>
+      <em>Total time: {{(workTime + restTime) * rounds}} mins</em>
     </div>
   </div>
 </template>
 
 <script>
 /* jshint esversion: 9 */
-import { value } from 'vue-function-api';
+import { value, computed, onCreated } from 'vue-function-api';
 import AppButton from './AppButton.vue';
 
 export default {
@@ -39,14 +37,55 @@ setup() {
   const workTime = value(25);
   const restTime = value(5);
   const rounds = value(5);
+  const minutes = value();
+  const seconds = value('00');
 
+  const countdown = () => {
+    const timeValue = setInterval(() => {
+      if (seconds.value <= 10
+          && seconds.value > 0) {
+        seconds.value = '0' + String(seconds.value - 1);
+      } else {
+        seconds.value--;
+      }
+      if (seconds.value < 0) {
+        seconds.value = 59;
+        if (minutes.value === 0) {
+          clearInterval(timeValue);
+          endRounds();
+          // console.log('End Rounds');
+          return;
+        } else {
+          minutes.value--;
+          seconds.value = 59;
+        }
+      }
+    }, 300);
+  };
+
+  onCreated(() => {
+    minutes.value = 10;
+    countdown();
+  });
+
+  const endRounds = () => {
+    minutes.value = 0;
+    seconds.value = '00';
+  };
   // const click = () => console.log('clicked');
+
+  // TODO: Methods for countdown, skip round, end
+    // countdown period -> (work -> rest) x rounds
+    //    -> when rounds == 0, end
 
   return {
     workMode,
     workTime,
     restTime,
     rounds,
+    seconds,
+    minutes,
+    endRounds,
 
 
     // click,
@@ -59,13 +98,6 @@ components: {
 </script>
 
 <style scoped>
-#main {
-  border: 2.3px black solid;
-  border-radius: 12px;
-  height: 300px;
-  padding: 20px;
-  position: relative;
-}
 
 .mode {
   text-align: center;
@@ -89,6 +121,7 @@ components: {
 .details {
   position: absolute;
   font-size: 1.3em;
-  top: 250px;
+  top: 230px;
 }
+
 </style>
