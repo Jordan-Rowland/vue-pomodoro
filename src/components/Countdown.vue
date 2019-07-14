@@ -1,15 +1,18 @@
 <template>
   <div id="main">
     <div class="buttons">
-      <button
-        @click="rounds++"
-        class="button">Add Round</button>
-      <button
-        @click="rounds--"
-        class="button">Skip Round</button>
-      <button
-        @click=""
-        class="button">End</button>
+      <app-button
+        text="Add Round"
+        @click.native="rounds++">
+      </app-button>
+      <app-button
+        @click.native="rounds--"
+        text="Skip Round">
+      </app-button>
+      <app-button
+        @click.native=""
+        text="End">
+      </app-button>
     </div>
     <div class="mode">
       <p v-if="workMode" class="work-mode">Work</p>
@@ -27,6 +30,7 @@
 <script>
 /* jshint esversion: 9 */
 import { value } from 'vue-function-api';
+import AppButton from './AppButton.vue';
 
 export default {
 name: 'Countdown',
@@ -36,12 +40,20 @@ setup() {
   const restTime = value(5);
   const rounds = value(5);
 
+  // const click = () => console.log('clicked');
+
   return {
     workMode,
     workTime,
     restTime,
     rounds,
+
+
+    // click,
   };
+},
+components: {
+  'app-button': AppButton,
 },
 };
 </script>
@@ -72,23 +84,6 @@ setup() {
 .buttons {
   display: flex;
   justify-content: center;
-}
-
-.button {
-  margin: 0 15px;
-  height: 3em;
-  background-color: #5FBA7D;
-  color: white;
-  border: none;
-  border-radius: 7px;
-  width: 105px;
-  font-weight: 800;
-  box-shadow: none;
-  outline: none;
-}
-
-.button:hover {
-  cursor: pointer;
 }
 
 .details {

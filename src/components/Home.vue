@@ -13,16 +13,16 @@ import PSetup from './PSetup.vue';
 import { value } from 'vue-function-api';
 
 export default {
-  name: 'home',
-  setup() {
+name: 'home',
+setup() {
 
-    return {
+  return {
 
-    };
-  },
-  components: {
-    Countdown,
-  },
+  };
+},
+components: {
+  Countdown,
+},
 
 };
 </script>

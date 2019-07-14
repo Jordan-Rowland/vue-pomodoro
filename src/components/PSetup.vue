@@ -6,13 +6,17 @@
 
 <script>
 /* jshint esversion: 9 */
-export default {
-  name: 'PSetup',
-  data() {
-    return {
+import { value } from 'vue-function-api';
 
-    };
-  },
+export default {
+name: 'PSetup',
+setup() {
+
+
+  return {
+
+  };
+},
 
 };
 </script>
