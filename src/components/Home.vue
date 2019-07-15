@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <countdown/>
+    <PSetup/>
   </div>
 </template>
 

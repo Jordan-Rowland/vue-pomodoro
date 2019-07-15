@@ -19,8 +19,8 @@
     <div class="details">
       <em>Work: {{ workTime }} mins</em> <br>
       <em>Rest: {{ restTime }} mins</em> <br>
-      <em>Rounds left: {{ rounds }}</em> <br>
-      <em>Time left: {{(workTime + restTime) * rounds}} mins</em>
+      <em>Rounds left: {{ roundsLeft }}</em> <br>
+      <em>Total time: {{(workTime + restTime) * rounds}} mins</em>
     </div>
   </div>
 </template>
@@ -37,6 +37,7 @@ setup() {
   const workTime = value(4);
   const restTime = value(2);
   const rounds = value(2);
+  const roundsLeft = value();
   const minutes = value();
   const seconds = value('00');
 
@@ -51,13 +52,13 @@ setup() {
       if (seconds.value < 0) {
         seconds.value = 59;
         if (minutes.value === 0) {
-          if (rounds.value === 1 && !workMode.value) {
+          if (roundsLeft.value === 1 && !workMode.value) {
             clearInterval(timeValue);
             endRounds();
           } else {
             if (!workMode.value) {
               minutes.value = workTime.value - 1;
-              rounds.value--;
+              roundsLeft.value--;
             } else {
               minutes.value = restTime.value - 1;
             }
@@ -68,38 +69,34 @@ setup() {
           seconds.value = 59;
         }
       }
-    }, 1000);
+      // Change time back to 1000
+    }, 10);
   };
 
+  // end button will send up event to change component
+  // to PSetup component
+
   const endRounds = () => {
-    rounds.value = 0;
+    roundsLeft.value = 0;
     minutes.value = 0;
     seconds.value = '00';
   };
 
   onCreated(() => {
+    roundsLeft.value = rounds.value;
     minutes.value = workTime.value;
     countdown();
   });
-
-
-  // const click = () => console.log('clicked');
-
-  // TODO: Methods for countdown, skip round, end
-    // countdown period -> (work -> rest) x rounds
-    //    -> when rounds == 0, end
 
   return {
     workMode,
     workTime,
     restTime,
     rounds,
+    roundsLeft,
     seconds,
     minutes,
-    endRounds,
 
-
-    // click,
   };
 },
 components: {

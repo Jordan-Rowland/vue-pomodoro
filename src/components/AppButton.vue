@@ -34,8 +34,9 @@ setup(props) {
   background-color: #5FBA7D;
   color: white;
   border: none;
-  border-radius: 7px;
-  width: 105px;
+  border-radius: 6px;
+  width: 9rem;
+  min-width: 5.5rem;
   font-weight: 800;
   box-shadow: none;
   outline: none;
