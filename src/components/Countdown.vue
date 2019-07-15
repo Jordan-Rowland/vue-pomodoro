@@ -13,14 +13,14 @@
     </div>
     <div class="mode">
       <p v-if="workMode" class="work-mode">Work</p>
-      <p v-else>Rest</p>
+      <p v-else class="work-mode">Rest</p>
       <p id="timer">{{ minutes }}:{{ seconds }}</p>
     </div>
     <div class="details">
       <em>Work: {{ workTime }} mins</em> <br>
       <em>Rest: {{ restTime }} mins</em> <br>
-      <em>Rounds: {{ rounds }}</em> <br>
-      <em>Total time: {{(workTime + restTime) * rounds}} mins</em>
+      <em>Rounds left: {{ rounds }}</em> <br>
+      <em>Time left: {{(workTime + restTime) * rounds}} mins</em>
     </div>
   </div>
 </template>
@@ -34,9 +34,9 @@ export default {
 name: 'Countdown',
 setup() {
   const workMode = value(true);
-  const workTime = value(25);
-  const restTime = value(5);
-  const rounds = value(5);
+  const workTime = value(4);
+  const restTime = value(2);
+  const rounds = value(2);
   const minutes = value();
   const seconds = value('00');
 
@@ -51,27 +51,38 @@ setup() {
       if (seconds.value < 0) {
         seconds.value = 59;
         if (minutes.value === 0) {
-          clearInterval(timeValue);
-          endRounds();
-          // console.log('End Rounds');
-          return;
+          if (rounds.value === 1 && !workMode.value) {
+            clearInterval(timeValue);
+            endRounds();
+          } else {
+            if (!workMode.value) {
+              minutes.value = workTime.value - 1;
+              rounds.value--;
+            } else {
+              minutes.value = restTime.value - 1;
+            }
+            workMode.value = !workMode.value;
+          }
         } else {
           minutes.value--;
           seconds.value = 59;
         }
       }
-    }, 300);
+    }, 1000);
   };
 
-  onCreated(() => {
-    minutes.value = 10;
-    countdown();
-  });
-
   const endRounds = () => {
+    rounds.value = 0;
     minutes.value = 0;
     seconds.value = '00';
   };
+
+  onCreated(() => {
+    minutes.value = workTime.value;
+    countdown();
+  });
+
+
   // const click = () => console.log('clicked');
 
   // TODO: Methods for countdown, skip round, end
