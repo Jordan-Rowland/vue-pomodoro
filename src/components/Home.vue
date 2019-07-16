@@ -1,7 +1,10 @@
 <template>
   <div class="container">
-    <countdown/>
-    <PSetup/>
+    <countdown
+    :workTimeProp="5"
+    :restTimeProp="2"
+    :roundsProp="3"/>
+    <!-- <PSetup/> -->
   </div>
 </template>
 

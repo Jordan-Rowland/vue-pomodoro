@@ -32,11 +32,21 @@ import AppButton from './AppButton.vue';
 
 export default {
 name: 'Countdown',
-setup() {
+
+props: {
+  workTimeProp: Number,
+  restTimeProp: Number,
+  roundsProp: Number,
+},
+
+setup(props) {
   const workMode = value(true);
-  const workTime = value(4);
-  const restTime = value(2);
-  const rounds = value(2);
+  // const workTime = value(4);
+  // const restTime = value(2);
+  // const rounds = value(2);
+  const workTime = computed(() => props.workTimeProp);
+  const restTime = computed(() => props.restTimeProp);
+  const rounds = computed(() => props.roundsProp);
   const roundsLeft = value();
   const minutes = value();
   const seconds = value('00');
@@ -54,7 +64,8 @@ setup() {
         if (minutes.value === 0) {
           if (roundsLeft.value === 1 && !workMode.value) {
             clearInterval(timeValue);
-            endRounds();
+            roundsLeft.value = 0;
+            seconds.value = '00';
           } else {
             if (!workMode.value) {
               minutes.value = workTime.value - 1;
@@ -73,10 +84,9 @@ setup() {
     }, 10);
   };
 
-  // end button will send up event to change component
-  // to PSetup component
-
   const endRounds = () => {
+    // end button will send up event to change component
+    // to PSetup component
     roundsLeft.value = 0;
     minutes.value = 0;
     seconds.value = '00';

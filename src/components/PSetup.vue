@@ -20,8 +20,9 @@ import AppButton from './AppButton.vue';
 export default {
 name: 'PSetup',
 setup() {
+  const startCountdown = () => {
 
-
+  };
   return {
 
   };
