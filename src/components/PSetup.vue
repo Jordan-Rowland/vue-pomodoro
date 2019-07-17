@@ -1,28 +1,39 @@
 <template>
   <div id="main">
     Work duration(minutes):
-     <br> <input type="text" name=""> <br>
+     <br> <input type="text" v-model="info.work"> <br>
     Rest duration(minutes):
-     <br> <input type="text" name=""> <br>
+     <br> <input type="text" v-model="info.rest"> <br>
     Rounds:
-     <br> <input type="number" name="" value="3">
-     <app-button id="start-button">
-       Start!
+     <br> <input type="number" v-model="info.rounds">
+     <app-button
+      @click="startCountdown"
+      id="start-button">
+      Start!
      </app-button>
   </div>
 </template>
 
 <script>
 /* jshint esversion: 9 */
-import { value } from 'vue-function-api';
+import { value, state } from 'vue-function-api';
 import AppButton from './AppButton.vue';
 
 export default {
 name: 'PSetup',
-setup() {
-  const startCountdown = () => {
+setup(props, context) {
 
+  const info = state({
+    work: number,
+    rest: number,
+    rounds: number,
+  });
+
+  const startCountdown = () => {
+    // emit up to parent to pass to countdown component
+    constext.emit();
   };
+
   return {
 
   };

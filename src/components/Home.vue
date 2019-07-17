@@ -4,7 +4,7 @@
     :workTimeProp="5"
     :restTimeProp="2"
     :roundsProp="3"/>
-    <!-- <PSetup/> -->
+    <PSetup/>
   </div>
 </template>
 
@@ -48,11 +48,12 @@ div {
   margin: auto;
 }
 
+/* Play with size when server is on, fag */
+
 @media only screen and (min-width: 800px) {
   .container {
     max-width: 40rem;
   }
 }
-
 
 </style>
