@@ -1,9 +1,9 @@
 <template>
-  <div class="container">
+  <div @emitUp="dataToCountdown" class="container">
     <countdown
-    :workTimeProp="5"
-    :restTimeProp="2"
-    :roundsProp="3"/>
+    :workTimeProp="workTimeData"
+    :restTimeProp="restTimeData"
+    :roundsProp="roundsData"/>
     <PSetup/>
   </div>
 </template>
@@ -17,6 +17,18 @@ import { value } from 'vue-function-api';
 export default {
 name: 'home',
 setup() {
+
+  const activeComponent = 'PSetup';
+
+  const workTimeData = value();
+  const restTimeData = value();
+  const roundsData = value();
+
+  const dataToCountdown = (info) => {
+    workTimeData = info.work;
+    restTimeData = info.rest;
+    roundsData = info.rounds;
+  }
 
   return {
 

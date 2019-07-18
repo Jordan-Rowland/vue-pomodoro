@@ -31,7 +31,7 @@ setup(props, context) {
 
   const startCountdown = () => {
     // emit up to parent to pass to countdown component
-    constext.emit();
+    constext.emit('emitUp', info);
   };
 
   return {
