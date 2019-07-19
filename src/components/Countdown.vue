@@ -5,7 +5,7 @@
         @click.native="roundsLeft++">Add Round
       </app-button>
       <app-button
-        @click.native="roundsLeft--">Skip Round
+        @click.native="skipRound">Skip Round
       </app-button>
       <app-button
         @click.native="endRounds">End
@@ -79,9 +79,15 @@ setup(props, context) {
           seconds.value = 59;
         }
       }
-      // Change time back to 1000
-    }, 10);
+    }, 1000);
   };
+
+  const skipRound = () => {
+    roundsLeft.value--
+    workMode.value = true;
+    seconds.value = '00';
+    minutes.value = props.workTimeProp;
+  }
 
   const endRounds = () => {
     roundsLeft.value = 0;
@@ -104,6 +110,7 @@ setup(props, context) {
     roundsLeft,
     minutes,
     seconds,
+    skipRound,
     endRounds,
   };
 },
