@@ -2,7 +2,7 @@
   <div id="main">
     <div class="buttons">
       <app-button
-        @click.native="roundsLeft++">Add Round
+        @click.native="addRound">Add Round
       </app-button>
       <app-button
         @click.native="skipRound">Skip Round
@@ -27,7 +27,7 @@
 
 <script>
 /* jshint esversion: 9 */
-import { value, computed, onCreated } from 'vue-function-api';
+import { computed, value, onCreated, watch } from 'vue-function-api';
 import AppButton from './AppButton.vue';
 
 export default {
@@ -45,7 +45,7 @@ setup(props, context) {
   // const restTime = value(2);
   const workTime = computed(() => props.workTimeProp);
   const restTime = computed(() => props.restTimeProp);
-  const rounds = computed(() => props.roundsProp);
+  const rounds = value(props.roundsProp);
   const roundsLeft = value();
   const minutes = value();
   const seconds = value('00');
@@ -65,6 +65,7 @@ setup(props, context) {
             clearInterval(timeValue);
             roundsLeft.value = 0;
             seconds.value = '00';
+            context.emit('emitEndRounds');
           } else {
             if (!workMode.value) {
               minutes.value = workTime.value - 1;
@@ -82,12 +83,21 @@ setup(props, context) {
     }, 1000);
   };
 
+  const addRound = () => {
+    roundsLeft.value++;
+    rounds.value++;
+  };
+
   const skipRound = () => {
-    roundsLeft.value--
+    if (roundsLeft.value < 1) {
+      roundsLeft.value = 0;
+    } else {
+      roundsLeft.value--;
+    }
     workMode.value = true;
     seconds.value = '00';
     minutes.value = props.workTimeProp;
-  }
+  };
 
   const endRounds = () => {
     roundsLeft.value = 0;
@@ -110,6 +120,7 @@ setup(props, context) {
     roundsLeft,
     minutes,
     seconds,
+    addRound,
     skipRound,
     endRounds,
   };

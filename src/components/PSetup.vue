@@ -24,8 +24,8 @@ name: 'PSetup',
 setup(props, context) {
 
   const info = state({
-    work: 3,
-    rest: 1,
+    work: 25,
+    rest: 5,
     rounds: 3,
   });
 
