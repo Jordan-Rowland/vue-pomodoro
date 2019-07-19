@@ -2,10 +2,10 @@
   <div id="main">
     <div class="buttons">
       <app-button
-        @click.native="rounds++">Add Round
+        @click.native="roundsLeft++">Add Round
       </app-button>
       <app-button
-        @click.native="rounds--">Skip Round
+        @click.native="roundsLeft--">Skip Round
       </app-button>
       <app-button
         @click.native="endRounds">End
@@ -39,11 +39,10 @@ props: {
   roundsProp: Number,
 },
 
-setup(props) {
+setup(props, context) {
   const workMode = value(true);
   // const workTime = value(4);
   // const restTime = value(2);
-  // const rounds = value(2);
   const workTime = computed(() => props.workTimeProp);
   const restTime = computed(() => props.restTimeProp);
   const rounds = computed(() => props.roundsProp);
@@ -85,11 +84,10 @@ setup(props) {
   };
 
   const endRounds = () => {
-    // end button will send up event to change component
-    // to PSetup component
     roundsLeft.value = 0;
     minutes.value = 0;
     seconds.value = '00';
+    context.emit('emitEndRounds');
   };
 
   onCreated(() => {
@@ -106,6 +104,7 @@ setup(props) {
     roundsLeft,
     minutes,
     seconds,
+    endRounds,
   };
 },
 components: {

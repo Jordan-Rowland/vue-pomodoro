@@ -1,9 +1,9 @@
 <template>
   <div id="main">
     Work duration(minutes):
-     <br> <input type="text" v-model="info.work"> <br>
+     <br> <input type="number" v-model="info.work"> <br>
     Rest duration(minutes):
-     <br> <input type="text" v-model="info.rest"> <br>
+     <br> <input type="number" v-model="info.rest"> <br>
     Rounds:
      <br> <input type="number" v-model="info.rounds">
      <app-button
@@ -24,8 +24,8 @@ name: 'PSetup',
 setup(props, context) {
 
   const info = state({
-    work: 1,
-    rest: 2,
+    work: 3,
+    rest: 1,
     rounds: 3,
   });
 

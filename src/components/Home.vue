@@ -1,10 +1,14 @@
 <template>
   <div class="container">
-<!--     <countdown
-    :workTimeProp="workTimeData"
-    :restTimeProp="restTimeData"
-    :roundsProp="roundsData"/> -->
-    <PSetup @emitUp="dataToCountdown"/>
+    <transition name="flip" mode="out-in">
+      <component :is="activeComponent"
+      :workTimeProp="workTimeData"
+      :restTimeProp="restTimeData"
+      :roundsProp="roundsData"
+      @emitUp="toCountdown"
+      @emitEndRounds="toSetup"
+      ></component>
+    </transition>
   </div>
 </template>
 
@@ -18,17 +22,21 @@ export default {
 name: 'home',
 setup() {
 
-  const activeComponent = 'PSetup';
+  const activeComponent = value('PSetup');
 
   const workTimeData = value();
   const restTimeData = value();
   const roundsData = value();
 
-  const dataToCountdown = (info) => {
-    workTimeData.value = info.work;
-    restTimeData.value = info.rest;
-    roundsData.value = info.rounds;
+  const toCountdown = (info) => {
+    workTimeData.value = Number(info.work);
+    restTimeData.value = Number(info.rest);
+    roundsData.value = Number(info.rounds);
     activeComponent.value = 'Countdown';
+  };
+
+  const toSetup = () => {
+    activeComponent.value = 'PSetup';
   };
 
   return {
@@ -36,7 +44,8 @@ setup() {
     workTimeData,
     restTimeData,
     roundsData,
-    dataToCountdown,
+    toCountdown,
+    toSetup,
   };
 
 },
@@ -72,6 +81,22 @@ div {
   .container {
     max-width: 40rem;
   }
+}
+
+
+.flip-enter {
+  transform: scaleX(0) translateZ(0);
+  opacity: 0;
+}
+.flip-enter-active {
+  transition: all .4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+.flip-leave {
+  transform: scaleX(0) translateZ(0);
+  opacity: 0;
+}
+.flip-leave-active {
+  transition: all .25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 </style>
