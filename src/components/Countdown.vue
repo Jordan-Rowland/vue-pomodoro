@@ -99,13 +99,13 @@ setup(props) {
   });
 
   return {
-    workMode: boolean,
-    workTime: number,
-    restTime: number,
-    rounds: number,
-    roundsLeft: number,
-    minutes: number,
-    seconds: number,
+    workMode,
+    workTime,
+    restTime,
+    rounds,
+    roundsLeft,
+    minutes,
+    seconds,
   };
 },
 components: {

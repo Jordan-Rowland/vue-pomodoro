@@ -1,10 +1,10 @@
 <template>
-  <div @emitUp="dataToCountdown" class="container">
-    <countdown
+  <div class="container">
+<!--     <countdown
     :workTimeProp="workTimeData"
     :restTimeProp="restTimeData"
-    :roundsProp="roundsData"/>
-    <PSetup/>
+    :roundsProp="roundsData"/> -->
+    <PSetup @emitUp="dataToCountdown"/>
   </div>
 </template>
 
@@ -25,14 +25,20 @@ setup() {
   const roundsData = value();
 
   const dataToCountdown = (info) => {
-    workTimeData = info.work;
-    restTimeData = info.rest;
-    roundsData = info.rounds;
-  }
+    workTimeData.value = info.work;
+    restTimeData.value = info.rest;
+    roundsData.value = info.rounds;
+    activeComponent.value = 'Countdown';
+  };
 
   return {
-
+    activeComponent,
+    workTimeData,
+    restTimeData,
+    roundsData,
+    dataToCountdown,
   };
+
 },
 components: {
   Countdown,

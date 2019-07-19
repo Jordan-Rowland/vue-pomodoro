@@ -7,7 +7,7 @@
     Rounds:
      <br> <input type="number" v-model="info.rounds">
      <app-button
-      @click="startCountdown"
+      @click.native="startCountdown"
       id="start-button">
       Start!
      </app-button>
@@ -24,19 +24,20 @@ name: 'PSetup',
 setup(props, context) {
 
   const info = state({
-    work: number,
-    rest: number,
-    rounds: number,
+    work: 1,
+    rest: 2,
+    rounds: 3,
   });
 
   const startCountdown = () => {
-    // emit up to parent to pass to countdown component
-    constext.emit('emitUp', info);
+    context.emit('emitUp', info);
   };
 
   return {
-
+    info,
+    startCountdown,
   };
+
 },
 components: {
   'app-button': AppButton,
