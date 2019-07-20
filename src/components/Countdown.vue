@@ -29,7 +29,11 @@
 
 <script>
 /* jshint esversion: 9 */
-import { computed, value, onCreated, watch } from 'vue-function-api';
+import { computed,
+         value,
+         onCreated,
+         onUnmounted
+       } from 'vue-function-api';
 import AppButton from './AppButton.vue';
 
 export default {
@@ -50,14 +54,19 @@ setup(props, context) {
   const roundsLeft = value();
   const minutes = value();
   const seconds = value('00');
+  let timeValue = value();
+
+  const play = (sound) => {
+  const audio = new Audio(require(`../assets/${sound}.mp3`));
+  return audio;
+  };
+
+  let endTone = play('endTone');
+  let ding1 = play('ding1');
+  let ding2 = play('ding2');
 
   const countdown = () => {
-    const timeValue = setInterval(() => {
-      if (!countdownRunning.value) {
-        console.log(countdownRunning.value)
-        clearInterval(timeValue);
-        endRounds();
-      }
+    timeValue = setInterval(() => {
       if (seconds.value <= 10
           && seconds.value > 0) {
         seconds.value = '0' + String(seconds.value - 1);
@@ -67,9 +76,10 @@ setup(props, context) {
       if (seconds.value < 0) {
         seconds.value = 59;
         if (minutes.value === 0) {
-          if (roundsLeft.value === 1 && !workMode.value) {
+          if (roundsLeft.value >= 1 && !workMode.value) {
             clearInterval(timeValue);
             endRounds();
+            endTone.play();
           } else {
             if (!workMode.value) {
               minutes.value = workTime.value - 1;
@@ -93,13 +103,14 @@ setup(props, context) {
   };
 
   const skipRound = () => {
-    if (roundsLeft.value < 1) {
-      roundsLeft.value = 0;
+    if (roundsLeft.value < 2) {
+      endRounds();
     } else {
       roundsLeft.value--;
     }
     workMode.value = true;
     seconds.value = '00';
+    ding1.play();
     minutes.value = props.workTimeProp;
   };
 
@@ -108,26 +119,17 @@ setup(props, context) {
     roundsLeft.value = 0;
     minutes.value = 0;
     seconds.value = '00';
-    let endTone = play('endTone');
-    endTone.play();
     context.emit('emitEndRounds');
-  };
-
-  const play = (sound) => {
-    const audio = new Audio(require(`../assets/${sound}.mp3`));
-    return audio
+    endTone.play();
   };
 
   const changeMode = () => {
     workMode.value = !workMode.value;
     if (workMode.value) {
-      let ding1 = play('ding1');
       ding1.play();
     } else {
-      let ding2 = play('ding2');
       ding2.play();
     }
-    return [ding1, ding2]
   };
 
   onCreated(() => {
@@ -135,9 +137,12 @@ setup(props, context) {
     roundsLeft.value = rounds.value;
     minutes.value = workTime.value;
     countdown();
-    let ding1 = play('ding1');
     ding1.play();
   });
+
+  onUnmounted(() => {
+    clearInterval(timeValue);
+  })
 
   return {
     workMode,
