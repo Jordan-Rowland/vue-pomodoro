@@ -162,9 +162,9 @@ components: {
 
 /* Animation 'flip' */
 .flip-enter {
-  /*transform: scaleX(0) translateZ(0);*/
-  opacity: 0;
-  transform: rotateY(90deg);
+  opacity: 1;
+  /*transform: rotateY(90deg);*/
+  transform: scale(1.5);
 }
 .flip-enter-active {
   transition: all .6s cubic-bezier(0.55, 0.085, 0.68, 0.53);

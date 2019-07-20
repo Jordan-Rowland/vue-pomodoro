@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <transition name="flip" mode="out-in">
+    <transition name="pulse" mode="out-in">
       <component :is="activeComponent"
       :workTimeProp="workTimeData"
       :restTimeProp="restTimeData"
@@ -83,20 +83,19 @@ div {
   }
 }
 
-/* Animation 'flip' */
-.flip-enter {
-  /*transform: scaleX(0) translateZ(0);*/
+/* Animation 'pulse' */
+.pulse-enter {
   opacity: 0;
-  transform: rotateY(135deg);
+  transform: rotateY(90deg);
 }
-.flip-enter-active {
-  transition: all .6s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+.pulse-enter-active {
+  transition: all .9s cubic-bezier(0.55, 0.085, 0.68, 0.53);
 }
-.flip-leave {
+.pulse-leave {
   transform: scaleX(0) translateZ(0);
   opacity: 0;
 }
-.flip-leave-active {
+.pulse-leave-active {
   transition: all .25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
