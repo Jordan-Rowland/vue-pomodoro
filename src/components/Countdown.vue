@@ -43,8 +43,7 @@ props: {
 
 setup(props, context) {
   const workMode = value(true);
-  // const workTime = value(4);
-  // const restTime = value(2);
+  const countdownRunning = value(true);
   const workTime = computed(() => props.workTimeProp);
   const restTime = computed(() => props.restTimeProp);
   const rounds = value(props.roundsProp);
@@ -54,6 +53,11 @@ setup(props, context) {
 
   const countdown = () => {
     const timeValue = setInterval(() => {
+      if (!countdownRunning.value) {
+        console.log(countdownRunning.value)
+        clearInterval(timeValue);
+        endRounds();
+      }
       if (seconds.value <= 10
           && seconds.value > 0) {
         seconds.value = '0' + String(seconds.value - 1);
@@ -65,9 +69,7 @@ setup(props, context) {
         if (minutes.value === 0) {
           if (roundsLeft.value === 1 && !workMode.value) {
             clearInterval(timeValue);
-            roundsLeft.value = 0;
-            seconds.value = '00';
-            context.emit('emitEndRounds');
+            endRounds();
           } else {
             if (!workMode.value) {
               minutes.value = workTime.value - 1;
@@ -75,7 +77,7 @@ setup(props, context) {
             } else {
               minutes.value = restTime.value - 1;
             }
-            workMode.value = !workMode.value;
+            changeMode();
           }
         } else {
           minutes.value--;
@@ -102,16 +104,39 @@ setup(props, context) {
   };
 
   const endRounds = () => {
+    countdownRunning.value = false;
     roundsLeft.value = 0;
     minutes.value = 0;
     seconds.value = '00';
+    let endTone = play('endTone');
+    endTone.play();
     context.emit('emitEndRounds');
   };
 
+  const play = (sound) => {
+    const audio = new Audio(require(`../assets/${sound}.mp3`));
+    return audio
+  };
+
+  const changeMode = () => {
+    workMode.value = !workMode.value;
+    if (workMode.value) {
+      let ding1 = play('ding1');
+      ding1.play();
+    } else {
+      let ding2 = play('ding2');
+      ding2.play();
+    }
+    return [ding1, ding2]
+  };
+
   onCreated(() => {
+    countdownRunning.value = true;
     roundsLeft.value = rounds.value;
     minutes.value = workTime.value;
     countdown();
+    let ding1 = play('ding1');
+    ding1.play();
   });
 
   return {
