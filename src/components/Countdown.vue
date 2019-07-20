@@ -12,8 +12,10 @@
       </app-button>
     </div>
     <div class="mode">
-      <p v-if="workMode" class="work-mode">Work</p>
-      <p v-else class="work-mode">Rest</p>
+      <transition name="flip" mode="out-in">
+        <p key=1 v-if="workMode" class="work-mode">Work</p>
+        <p key=2 v-else class="work-mode">Rest</p>
+      </transition>
       <p id="timer">{{ minutes }}:{{ seconds }}</p>
     </div>
     <div class="details">
@@ -80,7 +82,7 @@ setup(props, context) {
           seconds.value = 59;
         }
       }
-    }, 1000);
+    }, 50);
   };
 
   const addRound = () => {
@@ -156,6 +158,23 @@ components: {
   position: absolute;
   font-size: 1.3em;
   top: 230px;
+}
+
+/* Animation 'flip' */
+.flip-enter {
+  /*transform: scaleX(0) translateZ(0);*/
+  opacity: 0;
+  transform: rotateY(90deg);
+}
+.flip-enter-active {
+  transition: all .6s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+}
+.flip-leave {
+  transform: scaleX(0) translateZ(0);
+  opacity: 0;
+}
+.flip-leave-active {
+  transition: all .35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 </style>

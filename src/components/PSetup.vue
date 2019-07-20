@@ -21,12 +21,19 @@ import AppButton from './AppButton.vue';
 
 export default {
 name: 'PSetup',
+
+props: {
+  workTimeProp: Number,
+  restTimeProp: Number,
+  roundsProp: Number,
+},
+
 setup(props, context) {
 
   const info = state({
-    work: 25,
-    rest: 5,
-    rounds: 3,
+    work: props.workTimeProp,
+    rest: props.restTimeProp,
+    rounds: props.roundsProp,
   });
 
   const startCountdown = () => {

@@ -83,13 +83,14 @@ div {
   }
 }
 
-
+/* Animation 'flip' */
 .flip-enter {
-  transform: scaleX(0) translateZ(0);
+  /*transform: scaleX(0) translateZ(0);*/
   opacity: 0;
+  transform: rotateY(135deg);
 }
 .flip-enter-active {
-  transition: all .4s cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  transition: all .6s cubic-bezier(0.55, 0.085, 0.68, 0.53);
 }
 .flip-leave {
   transform: scaleX(0) translateZ(0);
