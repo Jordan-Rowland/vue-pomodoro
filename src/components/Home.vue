@@ -1,14 +1,19 @@
 <template>
-  <div class="container">
-    <transition name="pulse" mode="out-in">
-      <component :is="activeComponent"
-      :workTimeProp="workTimeData"
-      :restTimeProp="restTimeData"
-      :roundsProp="roundsData"
-      @emitUp="toCountdown"
-      @emitEndRounds="toSetup"
-      ></component>
-    </transition>
+  <div>
+    <header>
+      Pomodoro Timer
+    </header>
+    <div class="container">
+      <transition name="pulse" mode="out-in">
+        <component :is="activeComponent"
+        :workTimeProp="workTimeData"
+        :restTimeProp="restTimeData"
+        :roundsProp="roundsData"
+        @emitUp="toCountdown"
+        @emitEndRounds="toSetup"
+        ></component>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -58,6 +63,19 @@ components: {
 </script>
 
 <style scoped>
+header {
+  background-color: #5FBA7D;
+  height: 6rem;
+  width: 100%;
+  margin-bottom: 50px;
+  color: white;
+  font-size: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+}
+
 #main {
   border: .1rem #abc solid;
   border-radius: 12px;
@@ -84,7 +102,7 @@ div {
 }
 
 @media only screen and (max-width: 599px) {
-  .container {
+  .container, header {
     min-width: 25rem;
   }
 }

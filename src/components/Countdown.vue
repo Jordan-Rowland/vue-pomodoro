@@ -63,66 +63,65 @@ setup(props, context) {
   const ding1 = play('ding1');
   const ding2 = play('ding2');
 
+  const formatSeconds = () => {
+    if (seconds.value <= 10
+        && seconds.value > 0) {
+      seconds.value = `0${seconds.value - 1}`;
+    } else {
+      seconds.value--;
+    }
+  };
+
+  const changeModes = () => {
+    if (workMode.value) {
+      minutes.value = restTime.value - 1;
+    } else {
+      minutes.value = workTime.value - 1;
+      roundsLeft.value--;
+    }
+    changeMode();
+  };
+
+  const endAllRounds = () => {
+    clearInterval(timeValue);
+    endRounds();
+    endTone.play();
+  };
+
+  const minusMinute = () => {
+    minutes.value--;
+    seconds.value = 59;
+  };
+
+
   const countdown = () => {
+    const endOrMinusMinute = (condition) => {
+      if (condition) {
+        endOrChangeModes(roundsAreOne);
+      } else {
+        minusMinute();
+      }
+    };
+
+    const endOrChangeModes = (condition) => {
+      if (condition && !workMode.value) {
+        endAllRounds();
+      } else {
+        changeModes();
+      }
+    };
+
     timeValue = setInterval(() => {
-
-      const formatSeconds = () => {
-        if (seconds.value <= 10
-            && seconds.value > 0) {
-          seconds.value = `0${seconds.value - 1}`;
-        } else {
-          seconds.value--;
-        }
-      };
-
-      formatSeconds();
-
-      const changeModes = () => {
-        if (workMode.value) {
-          minutes.value = restTime.value - 1;
-        } else {
-          minutes.value = workTime.value - 1;
-          roundsLeft.value--;
-        }
-        changeMode();
-      };
-
-      const endAllRounds = () => {
-        clearInterval(timeValue);
-        endRounds();
-        endTone.play();
-      };
-
-      const endOrMinusMinute = () => {
-        if (minutesAreZero) {
-          endOrChangeModes();
-        } else {
-          minusMinute();
-        }
-      };
-
-      const endOrChangeModes = () => {
-        if (roundsAreOne && !workMode.value) {
-          endAllRounds();
-        } else {
-          changeModes();
-        }
-      };
-
-      const minusMinute = () => {
-        minutes.value--;
-        seconds.value = 59;
-      };
-
-      const secondsLessThanZero = seconds.value < 0;
+      const secondsAreZero = seconds.value == 0;
       const minutesAreZero = minutes.value === 0;
       const roundsAreOne = roundsLeft.value === 1;
 
+      formatSeconds();
 
-      if (secondsLessThanZero) {
+      if (secondsAreZero) {
         seconds.value = 59;
 
-        endOrMinusMinute();
+        endOrMinusMinute(minutesAreZero);
 
       }
     }, 50);
@@ -138,10 +137,10 @@ setup(props, context) {
       endRounds();
     } else {
       roundsLeft.value--;
+      ding1.play();
     }
     workMode.value = true;
     seconds.value = '00';
-    ding1.play();
     minutes.value = props.workTimeProp;
   };
 
