@@ -112,7 +112,7 @@ setup(props, context) {
     };
 
     timeValue = setInterval(() => {
-      const secondsAreZero = seconds.value === 0;
+      const secondsAreZero = seconds.value == 0;
       const minutesAreZero = minutes.value === 0;
       const roundsAreOne = roundsLeft.value === 1;
 
