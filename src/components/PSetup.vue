@@ -70,4 +70,10 @@ components: {
   margin-top: 1rem;
 }
 
+input {
+  border: none;
+  border-bottom: 1.2px #5FBA7D solid;
+  width: 25px;
+}
+
 </style>

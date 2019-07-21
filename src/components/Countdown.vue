@@ -32,8 +32,7 @@
 import { computed,
          value,
          onCreated,
-         onUnmounted
-       } from 'vue-function-api';
+         onDestroyed } from 'vue-function-api';
 import AppButton from './AppButton.vue';
 
 export default {
@@ -47,7 +46,6 @@ props: {
 
 setup(props, context) {
   const workMode = value(true);
-  const countdownRunning = value(true);
   const workTime = computed(() => props.workTimeProp);
   const restTime = computed(() => props.restTimeProp);
   const rounds = value(props.roundsProp);
@@ -61,38 +59,71 @@ setup(props, context) {
   return audio;
   };
 
-  let endTone = play('endTone');
-  let ding1 = play('ding1');
-  let ding2 = play('ding2');
+  const endTone = play('endTone');
+  const ding1 = play('ding1');
+  const ding2 = play('ding2');
 
   const countdown = () => {
     timeValue = setInterval(() => {
-      if (seconds.value <= 10
-          && seconds.value > 0) {
-        seconds.value = '0' + String(seconds.value - 1);
-      } else {
-        seconds.value--;
-      }
-      if (seconds.value < 0) {
-        seconds.value = 59;
-        if (minutes.value === 0) {
-          if (roundsLeft.value >= 1 && !workMode.value) {
-            clearInterval(timeValue);
-            endRounds();
-            endTone.play();
-          } else {
-            if (!workMode.value) {
-              minutes.value = workTime.value - 1;
-              roundsLeft.value--;
-            } else {
-              minutes.value = restTime.value - 1;
-            }
-            changeMode();
-          }
+
+      const formatSeconds = () => {
+        if (seconds.value <= 10
+            && seconds.value > 0) {
+          seconds.value = `0${seconds.value - 1}`;
         } else {
-          minutes.value--;
-          seconds.value = 59;
+          seconds.value--;
         }
+      };
+
+      formatSeconds();
+
+      const changeModes = () => {
+        if (workMode.value) {
+          minutes.value = restTime.value - 1;
+        } else {
+          minutes.value = workTime.value - 1;
+          roundsLeft.value--;
+        }
+        changeMode();
+      };
+
+      const endAllRounds = () => {
+        clearInterval(timeValue);
+        endRounds();
+        endTone.play();
+      };
+
+      const endOrMinusMinute = () => {
+        if (minutesAreZero) {
+          endOrChangeModes();
+        } else {
+          minusMinute();
+        }
+      };
+
+      const endOrChangeModes = () => {
+        if (roundsAreOne && !workMode.value) {
+          endAllRounds();
+        } else {
+          changeModes();
+        }
+      };
+
+      const minusMinute = () => {
+        minutes.value--;
+        seconds.value = 59;
+      };
+
+      const secondsLessThanZero = seconds.value < 0;
+      const minutesAreZero = minutes.value === 0;
+      const roundsAreOne = roundsLeft.value === 1;
+
+
+      if (secondsLessThanZero) {
+        seconds.value = 59;
+
+        endOrMinusMinute();
+
       }
     }, 50);
   };
@@ -115,7 +146,6 @@ setup(props, context) {
   };
 
   const endRounds = () => {
-    countdownRunning.value = false;
     roundsLeft.value = 0;
     minutes.value = 0;
     seconds.value = '00';
@@ -133,16 +163,16 @@ setup(props, context) {
   };
 
   onCreated(() => {
-    countdownRunning.value = true;
     roundsLeft.value = rounds.value;
     minutes.value = workTime.value;
     countdown();
     ding1.play();
   });
 
-  onUnmounted(() => {
+  onDestroyed(() => {
+    // console.log('unDestroyed');
     clearInterval(timeValue);
-  })
+  });
 
   return {
     workMode,

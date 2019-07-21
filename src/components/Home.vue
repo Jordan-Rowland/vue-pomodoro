@@ -83,6 +83,12 @@ div {
   }
 }
 
+@media only screen and (max-width: 599px) {
+  .container {
+    min-width: 25rem;
+  }
+}
+
 /* Animation 'pulse' */
 .pulse-enter {
   opacity: 0;
