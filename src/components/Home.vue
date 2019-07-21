@@ -59,7 +59,7 @@ components: {
 
 <style scoped>
 #main {
-  border: 2.3px black solid;
+  border: .1rem #abc solid;
   border-radius: 12px;
   height: 300px;
   padding: 20px;

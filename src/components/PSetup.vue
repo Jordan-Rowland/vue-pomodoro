@@ -1,11 +1,8 @@
 <template>
   <div id="main">
-    Work duration(minutes):
-     <br> <input type="number" v-model="info.work"> <br>
-    Rest duration(minutes):
-     <br> <input type="number" v-model="info.rest"> <br>
-    Rounds:
-     <br> <input type="number" v-model="info.rounds">
+    Work duration(minutes): <input type="number" v-model="info.work"> <br>
+    Rest duration(minutes): <input type="number" v-model="info.rest"> <br>
+    Rounds: <input type="number" v-model="info.rounds">
      <app-button
       @click.native="startCountdown"
       id="start-button">
@@ -31,9 +28,9 @@ props: {
 setup(props, context) {
 
   const info = state({
-    work: props.workTimeProp,
-    rest: props.restTimeProp,
-    rounds: props.roundsProp,
+    work: props.workTimeProp || 25,
+    rest: props.restTimeProp || 5,
+    rounds: props.roundsProp || 1,
   });
 
   const startCountdown = () => {
@@ -64,6 +61,7 @@ components: {
   align-items: center;
   justify-content: space-around;
   flex-direction: column;
+  font-size: 1.2rem;
 }
 
 #start-button {
@@ -72,8 +70,9 @@ components: {
 
 input {
   border: none;
-  border-bottom: 1.2px #5FBA7D solid;
-  width: 25px;
+  border-bottom: .1rem #5FBA7D solid;
+  width: 35px;
+  margin-left: 20px;
+  font-size: 1.2rem;
 }
-
 </style>
