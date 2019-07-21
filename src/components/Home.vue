@@ -103,7 +103,8 @@ div {
 
 @media only screen and (max-width: 599px) {
   .container, header {
-    min-width: 25rem;
+    min-width: 100%;
+    margin: auto;
   }
 }
 
