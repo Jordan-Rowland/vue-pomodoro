@@ -30,7 +30,7 @@ setup(props, context) {
   const info = state({
     work: props.workTimeProp || 25,
     rest: props.restTimeProp || 5,
-    rounds: props.roundsProp || 1,
+    rounds: props.roundsProp || 3,
   });
 
   const startCountdown = () => {
