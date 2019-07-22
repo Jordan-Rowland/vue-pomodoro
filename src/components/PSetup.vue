@@ -52,10 +52,6 @@ components: {
 
 <style scoped>
 #main {
-  border: 2.3px black solid;
-  border-radius: 12px;
-  height: 300px;
-  padding: 20px;
   position: relative;
   display: flex;
   align-items: center;

@@ -4,7 +4,7 @@
       Pomodoro Timer
     </header>
     <div class="container">
-      <transition name="pulse" mode="out-in">
+      <transition name="flip" mode="out-in">
         <component :is="activeComponent"
         :workTimeProp="workTimeData"
         :restTimeProp="restTimeData"
@@ -108,19 +108,30 @@ div {
   }
 }
 
-/* Animation 'pulse' */
-.pulse-enter {
+@media only screen and (max-width: 350px) {
+  .container {
+    width: 100%;
+  }
+
+  #main {
+    border: none;
+    font-size: 1rem;
+  }
+}
+
+/* Animation 'flip' */
+.flip-enter {
   opacity: 0;
   transform: rotateY(90deg);
 }
-.pulse-enter-active {
+.flip-enter-active {
   transition: all .9s cubic-bezier(0.55, 0.085, 0.68, 0.53);
 }
-.pulse-leave {
+.flip-leave {
   transform: scaleX(0) translateZ(0);
   opacity: 0;
 }
-.pulse-leave-active {
+.flip-leave-active {
   transition: all .25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 

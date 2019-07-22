@@ -12,7 +12,7 @@
       </app-button>
     </div>
     <div class="mode">
-      <transition name="flip" mode="out-in">
+      <transition name="pulse" mode="out-in">
         <p key=1 v-if="workMode" class="work-mode">Work</p>
         <p key=2 v-else class="work-mode">Rest</p>
       </transition>
@@ -95,9 +95,9 @@ setup(props, context) {
 
 
   const countdown = () => {
-    const endOrMinusMinute = (condition) => {
+    const endOrMinusMinute = (condition, modesCondition) => {
       if (condition) {
-        endOrChangeModes(roundsAreOne);
+        endOrChangeModes(modesCondition);
       } else {
         minusMinute();
       }
@@ -112,7 +112,7 @@ setup(props, context) {
     };
 
     timeValue = setInterval(() => {
-      const secondsAreZero = seconds.value == 0;
+      const secondsAreZero = seconds.value === '00';
       const minutesAreZero = minutes.value === 0;
       const roundsAreOne = roundsLeft.value === 1;
 
@@ -121,7 +121,7 @@ setup(props, context) {
       if (secondsAreZero) {
         seconds.value = 59;
 
-        endOrMinusMinute(minutesAreZero);
+        endOrMinusMinute(minutesAreZero, roundsAreOne);
 
       }
     }, 1000);
@@ -219,20 +219,20 @@ components: {
   top: 230px;
 }
 
-/* Animation 'flip' */
-.flip-enter {
+/* Animation 'pulse' */
+.pulse-enter {
   opacity: 1;
   /*transform: rotateY(90deg);*/
   transform: scale(1.5);
 }
-.flip-enter-active {
+.pulse-enter-active {
   transition: all .6s cubic-bezier(0.55, 0.085, 0.68, 0.53);
 }
-.flip-leave {
+.pulse-leave {
   transform: scaleX(0) translateZ(0);
   opacity: 0;
 }
-.flip-leave-active {
+.pulse-leave-active {
   transition: all .35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
