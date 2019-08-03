@@ -169,7 +169,6 @@ setup(props, context) {
   });
 
   onDestroyed(() => {
-    // console.log('unDestroyed');
     clearInterval(timeValue);
   });
 
@@ -216,13 +215,12 @@ components: {
 .details {
   position: absolute;
   font-size: 1.3em;
-  top: 230px;
+  top: 14rem;
 }
 
 /* Animation 'pulse' */
 .pulse-enter {
   opacity: 1;
-  /*transform: rotateY(90deg);*/
   transform: scale(1.5);
 }
 .pulse-enter-active {
